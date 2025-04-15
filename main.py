@@ -890,7 +890,10 @@ def format_email_summary(today_applications):
         if app.get('company_research') and len(app.get('company_research', '').strip()) > 10:
             summary += f"<div style='background-color: #f0f7ff; padding: 15px; border-radius: 5px; margin-bottom: 10px;'>"
             summary += f"<h4>{app['company']}</h4>"
-            summary += f"<p>{app['company_research'].replace('\n', '<br>')}</p>"
+            # Handle newline replacement without using backslash in f-string
+            company_research = app['company_research']
+            formatted_research = company_research.replace('\n', '<br>')
+            summary += f"<p>{formatted_research}</p>"
             summary += "</div>"
     
     summary += "</div>"
