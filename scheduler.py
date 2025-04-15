@@ -29,8 +29,9 @@ def run_job_tracker():
         script_dir = os.path.dirname(os.path.abspath(__file__))
         os.chdir(script_dir)
         
-        # Run the main script
-        os.system('python main.py')
+        # Import and run the main application function
+        from app.main import run_agent
+        run_agent()
         
         logging.info("Scheduled job completed successfully.")
     except Exception as e:
