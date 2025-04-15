@@ -271,7 +271,9 @@ class JobApplicationTracker:
                 os.makedirs(research_dir)
                 
             # Create safe filename
-            company_filename = company.replace('/', '_').replace('\\', '_')
+            # Handle special characters in file name without backslash issues
+            company_filename = company.replace('/', '_')
+            company_filename = company_filename.replace('\\', '_')
             research_file = f"{research_dir}/{company_filename}.txt"
             
             # Check if research exists
@@ -590,7 +592,8 @@ def generate_research_for_all_companies():
         # Generate research for each company that doesn't have research yet
         for company in companies:
             # Create safe filename
-            company_filename = company.replace('/', '_').replace('\\', '_')
+            company_filename = company.replace('/', '_')
+            company_filename = company_filename.replace('\\', '_')
             research_file = f"{research_dir}/{company_filename}.txt"
             
             # Skip if research already exists
@@ -770,7 +773,10 @@ def run_agent():
                         summary += f"\nCompany Research:\n{app['research']}\n"
                     else:
                         # Try to get research from file
-                        research_file = f"company_research/{app['company'].replace('/', '_').replace('\\', '_')}.txt"
+                        company_name = app['company']
+                        # Handle special characters in file name
+                        safe_company_name = company_name.replace('/', '_').replace('\\\\', '_')
+                        research_file = f"company_research/{safe_company_name}.txt"
                         if os.path.exists(research_file):
                             with open(research_file, 'r', encoding='utf-8', errors='replace') as f:
                                 lines = f.readlines()
@@ -796,7 +802,11 @@ def run_agent():
                     if latest_app.get('research'):
                         summary += f"\nCompany Research:\n{latest_app['research']}\n"
                     else:
-                        research_file = f"company_research/{latest_app['company'].replace('/', '_').replace('\\', '_')}.txt"
+                        latest_company = latest_app['company']
+                        # Handle special characters safely
+                        safe_company = latest_company.replace('/', '_')
+                        safe_company = safe_company.replace('\\', '_')
+                        research_file = f"company_research/{safe_company}.txt"
                         if os.path.exists(research_file):
                             with open(research_file, 'r', encoding='utf-8', errors='replace') as f:
                                 lines = f.readlines()
