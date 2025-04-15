@@ -1,0 +1,30 @@
+# Environment variables
+.env
+
+# CSV data
+*.csv
+
+# Logs
+logs/
+*.log
+
+# Cached Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# Company research 
+company_research/
+
+# IDE files
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db 
