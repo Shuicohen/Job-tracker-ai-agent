@@ -63,8 +63,9 @@ def extract_job_info(email_body):
         \"\"\"
         """
         
-        # Call OpenAI API using the older version syntax which works
-        response = openai.ChatCompletion.create(
+        # Call OpenAI API using the new client format
+        client = openai.OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant that extracts job application details from emails."},
@@ -74,7 +75,7 @@ def extract_job_info(email_body):
         )
         
         # Extract and parse the JSON response
-        json_str = response.choices[0].message['content'].strip()
+        json_str = response.choices[0].message.content.strip()
         
         # Add error handling for possible JSON issues
         # Remove any markdown code blocks if present
@@ -547,8 +548,9 @@ def generate_company_research(company_name):
         Keep it under 150 words. Be concise and factual.
         """
         
-        # Call OpenAI API with older version syntax
-        response = openai.ChatCompletion.create(
+        # Call OpenAI API with new client syntax
+        client = openai.OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant that provides concise company research for job applicants."},
@@ -559,7 +561,7 @@ def generate_company_research(company_name):
         )
         
         # Extract the response
-        research = response.choices[0].message['content'].strip()
+        research = response.choices[0].message.content.strip()
         logging.info(f"Successfully generated research for {company_name}")
         return research
         
